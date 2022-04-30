@@ -1,4 +1,5 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import BrandList from 'components/BrandList';
 import ModelList from 'components/ModelList';

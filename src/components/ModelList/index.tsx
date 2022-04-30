@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button, Container, Row } from 'react-bootstrap';
+import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { IBrand } from 'store/ducks/brands/types';
@@ -11,6 +13,8 @@ interface IStatePros {
   models: IModel[];
   selectedBrand: IBrand;
   selectedModel?: IModel;
+  loading: boolean;
+  state: any;
 }
 
 interface IDispatchProps {
@@ -27,35 +31,76 @@ export const ModelList = ({
   loadRequest,
   toggleModel,
   selectedBrand,
+  loading,
   selectedModel,
+  state,
 }: Props) => {
+  const [localData, setLocalData] = useState([...models]);
+  const [filterText, setFilterText] = useState('');
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   useEffect(() => {
     loadRequest(selectedBrand);
   }, []);
 
-  // useEffect(() => {
-  //   console.log('-0->', selectedBrand);
-  // }, [selectedBrand]);
+  useEffect(() => {
+    setLocalData([...models]);
+  }, [models]);
 
-  // useEffect(() => {
-  //   console.log('clg-selectedmodel->', selectedModel);
-  // }, [selectedModel]);
+  useEffect(() => {
+    if (filterText === '') {
+      setLocalData([...models]);
+    } else {
+      setLocalData(
+        models.filter((model) =>
+          model.name.toUpperCase().includes(filterText.toUpperCase()),
+        ),
+      );
+    }
+  }, [filterText]);
 
   return (
-    <div style={{ color: 'black' }}>
-      {models?.map((model) => (
-        <div key={model.code} style={{ padding: '5px' }}>
-          <button onClick={() => toggleModel(selectedBrand, model)}> {model.name}</button>
-        </div>
-      ))}
-    </div>
+    <Container style={{ margin: '2px' }}>
+      <Row>
+        {loading && (
+          <ReactLoading type={'spin'} color={'blue'} height={'20%'} width={'20%'} />
+        )}
+        <input
+          type="text"
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
+        />
+      </Row>
+      <Row style={{ color: 'black' }}>
+        {localData?.length > 0 &&
+          localData.map((model) => {
+            return (
+              model.name && (
+                <Row key={model.code} style={{ padding: '2px' }}>
+                  <Button
+                    variant="primary"
+                    onClick={() => toggleModel(selectedBrand, model)}
+                  >
+                    {model.name}
+                  </Button>
+                </Row>
+              )
+            );
+          })}
+      </Row>
+    </Container>
   );
 };
 
 const mapStateToProps = (state: IApplicationState) => ({
   models: state.models.data.models,
+  loading: state.models.loading,
   selectedBrand: state.brands.data.selectedBrand,
   selectedModel: state.models.data.selectedModel,
+  state: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

@@ -4,12 +4,13 @@ import { Reducer } from 'redux';
 import { IYearModelsState, YearModelTypes } from './types';
 
 const INITIAL_STATE: IYearModelsState = {
-  data: { yearModels: [{ code: 1, name: 'teste year model' }] },
+  data: { yearModels: [] },
   error: false,
   loading: false,
 };
 
 const reducer: Reducer<IYearModelsState> = (state = INITIAL_STATE, action) => {
+  console.log('reducer year:----------------------', action, state);
   switch (action.type) {
     case YearModelTypes.LOAD_REQUEST:
       return { ...state, loading: true };

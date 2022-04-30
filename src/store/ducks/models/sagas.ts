@@ -10,15 +10,14 @@ export function* loadModels(action: any) {
   const { data: brand } = action.payload;
 
   try {
-    if (brand) {
+    if (brand.code) {
       const response: AxiosResponse<IModel[]> = yield call(getModels, {
         carType: vehicleTypes.cars,
         brandCode: brand.code,
       });
-      // console.log('-...-', response);
       yield put(loadSuccess(response));
     } else {
-      return;
+      yield put(loadSuccess([]));
     }
   } catch (error) {
     yield put(loadFailure());

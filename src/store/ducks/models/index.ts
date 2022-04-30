@@ -1,17 +1,16 @@
 import { Reducer } from 'redux';
 
-// import { IModel } from 'store/ducks/Models/types';
 import { IModelsState, ModelTypes } from './types';
 
 const INITIAL_STATE: IModelsState = {
-  data: { models: [{ code: 1, name: 'teste' }] },
+  data: { models: [] },
   error: false,
   loading: false,
 };
 
 const reducer: Reducer<IModelsState> = (state = INITIAL_STATE, action) => {
   // console.log(':::', action);
-
+  console.log('reducer models:----------------------', action, state);
   switch (action.type) {
     case ModelTypes.LOAD_REQUEST:
       return { ...state, loading: true };
@@ -28,10 +27,9 @@ const reducer: Reducer<IModelsState> = (state = INITIAL_STATE, action) => {
     case ModelTypes.TOGGLE_MODEL:
       return {
         ...state,
-        loading: false,
-        error: false,
         data: {
           models: state.data.models,
+          selectedModel: action.payload.data,
         },
       };
 

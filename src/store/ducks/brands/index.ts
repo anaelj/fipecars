@@ -4,12 +4,13 @@ import { Reducer } from 'redux';
 import { BrandTypes, IBrandsState } from './types';
 
 const INITIAL_STATE: IBrandsState = {
-  data: { brands: [{ code: 1, name: 'teste' }] },
+  data: { brands: [] },
   error: false,
   loading: false,
 };
 
 const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
+  console.log('reducer brands:----------------------', action, state);
   switch (action.type) {
     case BrandTypes.LOAD_REQUEST:
       return { ...state, loading: true };
@@ -26,11 +27,10 @@ const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
     case BrandTypes.TOGGLE_BRAND:
       return {
         ...state,
-        loading: false,
-        error: false,
         data: {
           brands: state.data.brands,
           selectedBrand: action.payload.data,
+          yearModels: null,
         },
       };
 

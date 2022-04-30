@@ -10,7 +10,7 @@ export function* loadYearModels(action: any) {
   const { dataBrand: brand, dataModel: model } = action.payload;
 
   try {
-    if (brand) {
+    if (brand.code && model.code) {
       const response: AxiosResponse<IYearModel[]> = yield call(getYearModels, {
         carType: vehicleTypes.cars,
         codeBrand: brand.code,
@@ -18,7 +18,7 @@ export function* loadYearModels(action: any) {
       });
       yield put(loadSuccess(response));
     } else {
-      return;
+      yield put(loadSuccess([]));
     }
   } catch (error) {
     yield put(loadFailure());
