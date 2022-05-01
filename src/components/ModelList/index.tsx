@@ -12,7 +12,6 @@ import { IApplicationState } from './../../store/index';
 interface IStatePros {
   models: IModel[];
   selectedBrand: IBrand;
-  selectedModel?: IModel;
   loading: boolean;
   state: any;
 }
@@ -32,15 +31,9 @@ export const ModelList = ({
   toggleModel,
   selectedBrand,
   loading,
-  selectedModel,
-  state,
 }: Props) => {
   const [localData, setLocalData] = useState([...models]);
   const [filterText, setFilterText] = useState('');
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   useEffect(() => {
     loadRequest(selectedBrand);
@@ -68,11 +61,15 @@ export const ModelList = ({
         {loading && (
           <ReactLoading type={'spin'} color={'blue'} height={'20%'} width={'20%'} />
         )}
-        <input
-          type="text"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-        />
+      </Row>
+      <Row>
+        {models.length > 0 && (
+          <input
+            type="text"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        )}
       </Row>
       <Row style={{ color: 'black' }}>
         {localData?.length > 0 &&
@@ -99,8 +96,6 @@ const mapStateToProps = (state: IApplicationState) => ({
   models: state.models.data.models,
   loading: state.models.loading,
   selectedBrand: state.brands.data.selectedBrand,
-  selectedModel: state.models.data.selectedModel,
-  state: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

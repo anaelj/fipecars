@@ -13,13 +13,12 @@ interface IStatePros {
   yearModels: IYearModel[];
   selectedBrand: IBrand;
   selectedModel: IModel;
-  selectedyearModel?: IYearModel;
   loading: boolean;
-  state: any;
+  selectedyearModel?: IYearModel;
 }
 
 interface IDispatchProps {
-  loadRequest(brand: IBrand): void;
+  loadRequest(brand: IBrand, model: IYearModel): void;
   toggleYearModel(yearModel: IYearModel): void;
 }
 
@@ -32,23 +31,14 @@ export const yearModelList = ({
   loadRequest,
   toggleYearModel,
   selectedBrand,
+  selectedModel,
   loading,
-  selectedyearModel,
-  state,
 }: Props) => {
   const [localData, setLocalData] = useState([...yearModels]);
   const [filterText, setFilterText] = useState('');
 
   useEffect(() => {
-    loadRequest(selectedBrand);
-  }, []);
-
-  useEffect(() => {
-    console.log('state-year->', state);
-  }, [state]);
-
-  useEffect(() => {
-    loadRequest(selectedBrand);
+    loadRequest(selectedBrand, selectedModel);
   }, []);
 
   useEffect(() => {
@@ -66,17 +56,22 @@ export const yearModelList = ({
       );
     }
   }, [filterText]);
+
   return (
     <Container style={{ margin: '2px' }}>
       <Row>
         {loading && (
           <ReactLoading type={'spin'} color={'blue'} height={'20%'} width={'20%'} />
         )}
-        <input
-          type="text"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-        />
+      </Row>
+      <Row>
+        {yearModels?.length > 0 && (
+          <input
+            type="text"
+            value={filterText}
+            onChange={(e) => setFilterText(e.target.value)}
+          />
+        )}
       </Row>
       <Row>
         {localData?.length > 0 &&
@@ -100,9 +95,8 @@ const mapStateToProps = (state: IApplicationState) => ({
   yearModels: state.yearModels.data.yearModels,
   selectedBrand: state.selectedBrand,
   selectedModel: state.selectedModel,
-  selectedYearModel: state.yearModels.data.selectedYearModel,
+  selectedYearModel: state.selectedYearModel,
   loading: state.yearModels.loading,
-  state: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

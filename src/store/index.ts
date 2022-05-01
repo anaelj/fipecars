@@ -1,6 +1,7 @@
 import { applyMiddleware, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { IBrand } from 'store/ducks/brands/types';
+import { IYearModel } from 'store/ducks/yearModels/types';
 
 import { IBrandsState } from './ducks/brands/types';
 import { IModel, IModelsState } from './ducks/models/types';
@@ -9,11 +10,12 @@ import rootSaga from './ducks/rootSaga';
 import { IYearModelsState } from './ducks/yearModels/types';
 
 export interface IApplicationState {
-  brands: IBrandsState;
-  models: IModelsState;
-  yearModels: IYearModelsState;
-  selectedBrand: IBrand;
-  selectedModel: IModel;
+  brands?: IBrandsState;
+  models?: IModelsState;
+  yearModels?: IYearModelsState;
+  selectedBrand?: IBrand;
+  selectedModel?: IModel;
+  selectedYearModel?: IYearModel;
 }
 const sagaMiddleware = createSagaMiddleware();
 

@@ -10,7 +10,7 @@ const INITIAL_STATE: IBrandsState = {
 };
 
 const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
-  console.log('reducer brands:----------------------', action, state);
+  // console.log('reducer brands:----------------------', action, state);
   switch (action.type) {
     case BrandTypes.LOAD_REQUEST:
       return { ...state, loading: true };

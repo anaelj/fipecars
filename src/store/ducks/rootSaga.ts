@@ -20,8 +20,8 @@ export default function* rootSaga() {
     takeLatest(BrandTypes.LOAD_REQUEST, loadBrands),
     takeLatest(BrandTypes.TOGGLE_BRAND, loadModels),
     takeLatest(ModelTypes.TOGGLE_MODEL, loadYearModels),
-    // takeLatest(BrandTypes.LOAD_SUCCESS, loadModels),
-    // takeLatest(ModelTypes.LOAD_SUCCESS, loadYearModels),
+    takeLatest(BrandTypes.LOAD_SUCCESS, loadModels),
+    takeLatest(ModelTypes.LOAD_SUCCESS, loadYearModels),
   ]);
   return response;
 }

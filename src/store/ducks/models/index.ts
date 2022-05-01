@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 
+import { BrandTypes } from '../brands/types';
 import { IModelsState, ModelTypes } from './types';
 
 const INITIAL_STATE: IModelsState = {
@@ -10,7 +11,7 @@ const INITIAL_STATE: IModelsState = {
 
 const reducer: Reducer<IModelsState> = (state = INITIAL_STATE, action) => {
   // console.log(':::', action);
-  console.log('reducer models:----------------------', action, state);
+  // console.log('reducer models:----------------------', action, state);
   switch (action.type) {
     case ModelTypes.LOAD_REQUEST:
       return { ...state, loading: true };
@@ -23,6 +24,12 @@ const reducer: Reducer<IModelsState> = (state = INITIAL_STATE, action) => {
       };
     case ModelTypes.LOAD_FAILURE:
       return { ...state, loading: false, error: true, data: { models: [] } };
+
+    case BrandTypes.TOGGLE_BRAND:
+      return {
+        ...state,
+        loading: true,
+      };
 
     case ModelTypes.TOGGLE_MODEL:
       return {

@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 
+import { ModelTypes } from '../models/types';
 // import { IYearModel } from 'store/ducks/YearModels/types';
 import { IYearModelsState, YearModelTypes } from './types';
 
@@ -23,6 +24,12 @@ const reducer: Reducer<IYearModelsState> = (state = INITIAL_STATE, action) => {
       };
     case YearModelTypes.LOAD_FAILURE:
       return { ...state, loading: false, error: true, data: { yearModels: [] } };
+
+    case ModelTypes.TOGGLE_MODEL:
+      return {
+        ...state,
+        loading: true,
+      };
 
     case YearModelTypes.TOGGLE_YEARMODEL:
       return {
