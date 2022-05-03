@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-export enum vehicleTypes {
+export enum VehicleTypes {
   cars = 'cars',
   motorcycles = 'motorcycles',
-  truks = 'truks',
+  trucks = 'trucks',
 }

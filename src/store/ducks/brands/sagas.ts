@@ -1,14 +1,15 @@
 import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { getBrands } from 'services/api';
-import { vehicleTypes } from 'services/api.types';
 import { IBrand } from 'store/ducks/brands/types';
 
 import { loadFailure, loadSuccess } from './actions';
 
-export function* loadBrands() {
+export function* loadBrands(data: any) {
   try {
-    const response: AxiosResponse<IBrand[]> = yield call(getBrands, vehicleTypes.cars);
+    const { data: vehicleType } = data.payload;
+
+    const response: AxiosResponse<IBrand[]> = yield call(getBrands, vehicleType);
 
     yield put(loadSuccess(response));
   } catch (error) {

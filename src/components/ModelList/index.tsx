@@ -3,21 +3,22 @@ import { Button, Container, Row } from 'react-bootstrap';
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { VehicleTypes } from 'services/api.types';
 import { IBrand } from 'store/ducks/brands/types';
 import { IModel } from 'store/ducks/models/types';
 
 import * as modelsActions from '../../store/ducks/models/actions';
+import { useVehicle } from './../../context/vehicleContext';
 import { IApplicationState } from './../../store/index';
 
 interface IStatePros {
   models: IModel[];
   selectedBrand: IBrand;
   loading: boolean;
-  state: any;
 }
 
 interface IDispatchProps {
-  loadRequest(brand: IBrand): void;
+  loadRequest(brand: IBrand, vehicleType: VehicleTypes): void;
   toggleModel(dataBrand: IBrand, dataModel: IModel): void;
 }
 
@@ -34,10 +35,11 @@ export const ModelList = ({
 }: Props) => {
   const [localData, setLocalData] = useState([...models]);
   const [filterText, setFilterText] = useState('');
+  const { currentVehicleType } = useVehicle();
 
   useEffect(() => {
-    loadRequest(selectedBrand);
-  }, []);
+    loadRequest(selectedBrand, currentVehicleType);
+  }, [currentVehicleType]);
 
   useEffect(() => {
     setLocalData([...models]);

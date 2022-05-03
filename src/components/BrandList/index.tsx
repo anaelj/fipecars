@@ -1,8 +1,10 @@
+import { useVehicle } from 'context/vehicleContext';
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Row } from 'react-bootstrap';
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { VehicleTypes } from 'services/api.types';
 import { IBrand } from 'store/ducks/brands/types';
 
 import * as BrandsActions from '../../store/ducks/brands/actions';
@@ -14,7 +16,7 @@ interface IStatePros {
 }
 
 interface IDispatchProps {
-  loadRequest(): void;
+  loadRequest(vehicleType: VehicleTypes): void;
   toggleBrand(brand: IBrand): void;
 }
 
@@ -25,10 +27,11 @@ type Props = IStatePros & IDispatchProps & IOwnProps;
 export const BrandList = ({ brands, loadRequest, toggleBrand, loading }: Props) => {
   const [localData, setLocalData] = useState([...brands]);
   const [filterText, setFilterText] = useState('');
+  const { currentVehicleType } = useVehicle();
 
   useEffect(() => {
-    loadRequest();
-  }, []);
+    loadRequest(currentVehicleType);
+  }, [currentVehicleType]);
 
   useEffect(() => {
     setLocalData([...brands]);

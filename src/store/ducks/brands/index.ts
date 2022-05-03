@@ -1,6 +1,5 @@
 import { Reducer } from 'redux';
 
-// import { IBrand } from 'store/ducks/brands/types';
 import { BrandTypes, IBrandsState } from './types';
 
 const INITIAL_STATE: IBrandsState = {
@@ -10,7 +9,6 @@ const INITIAL_STATE: IBrandsState = {
 };
 
 const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
-  // console.log('reducer brands:----------------------', action, state);
   switch (action.type) {
     case BrandTypes.LOAD_REQUEST:
       return { ...state, loading: true };

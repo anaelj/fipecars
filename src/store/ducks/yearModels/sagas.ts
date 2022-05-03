@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { call, put } from 'redux-saga/effects';
 import { getYearModels } from 'services/api';
-import { vehicleTypes } from 'services/api.types';
+import { VehicleTypes } from 'services/api.types';
 import { IYearModel } from 'store/ducks/yearModels/types';
 
 import { loadFailure, loadSuccess } from './actions';
@@ -12,7 +12,7 @@ export function* loadYearModels(action: any) {
   try {
     if (brand?.code && model?.code) {
       const response: AxiosResponse<IYearModel[]> = yield call(getYearModels, {
-        carType: vehicleTypes.cars,
+        vehicleType: VehicleTypes.cars,
         codeBrand: brand.code,
         codeModel: model.code,
       });

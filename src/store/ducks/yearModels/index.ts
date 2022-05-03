@@ -11,7 +11,6 @@ const INITIAL_STATE: IYearModelsState = {
 };
 
 const reducer: Reducer<IYearModelsState> = (state = INITIAL_STATE, action) => {
-  console.log('reducer year:----------------------', action, state);
   switch (action.type) {
     case YearModelTypes.LOAD_REQUEST:
       return { ...state, loading: true };
