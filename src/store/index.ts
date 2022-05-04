@@ -1,7 +1,7 @@
 import { applyMiddleware, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { IBrand } from 'store/ducks/brands/types';
-import { IYearModel } from 'store/ducks/yearModels/types';
+import { IVehicle, IYearModel } from 'store/ducks/yearModels/types';
 
 import { IBrandsState } from './ducks/brands/types';
 import { IModel, IModelsState } from './ducks/models/types';
@@ -16,6 +16,7 @@ export interface IApplicationState {
   selectedBrand?: IBrand;
   selectedModel?: IModel;
   selectedYearModel?: IYearModel;
+  vehicle?: IVehicle;
 }
 const sagaMiddleware = createSagaMiddleware();
 

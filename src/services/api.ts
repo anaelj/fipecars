@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { VehicleTypes } from './api.types';
+import { TypesVehicle } from './api.types';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL?.toString() || '',
@@ -10,12 +10,12 @@ export const getReferences = async () => {
   return await api.get('references').then((res) => res.data);
 };
 
-export const getBrands = async (vehicleType: VehicleTypes) => {
+export const getBrands = async (vehicleType: TypesVehicle) => {
   return await api.get(`${vehicleType}/brands`).then((res) => res.data);
 };
 
 interface IModelProps {
-  vehicleType: VehicleTypes;
+  vehicleType: TypesVehicle;
   codeBrand: number;
 }
 
@@ -26,7 +26,7 @@ export const getModels = async ({ vehicleType, codeBrand }: IModelProps) => {
 };
 
 export interface IYearsModelProps {
-  vehicleType: VehicleTypes;
+  vehicleType: TypesVehicle;
   codeBrand: number;
   codeModel: number;
 }
@@ -42,16 +42,16 @@ export const getYearModels = async ({
 };
 
 interface IFipeInfoProps extends IYearsModelProps {
-  codeYear: string;
+  codeYearModel: string;
 }
 
 export const getFipeInfo = async ({
   vehicleType,
   codeBrand,
   codeModel,
-  codeYear,
+  codeYearModel,
 }: IFipeInfoProps) => {
   return await api
-    .get(`${vehicleType}/brands/${codeBrand}/models/${codeModel}/years/${codeYear}`)
+    .get(`${vehicleType}/brands/${codeBrand}/models/${codeModel}/years/${codeYearModel}`)
     .then((res) => res.data);
 };

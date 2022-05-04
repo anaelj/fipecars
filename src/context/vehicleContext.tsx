@@ -1,10 +1,10 @@
 import { createContext, useContext, useState } from 'react';
 import React from 'react';
-import { VehicleTypes } from 'services/api.types';
+import { TypesVehicle } from 'services/api.types';
 
 interface IVehicleContextProps {
-  currentVehicleType: VehicleTypes;
-  setCurrentVehicleType: (value: VehicleTypes) => void;
+  currentVehicleType: TypesVehicle;
+  setCurrentVehicleType: (value: TypesVehicle) => void;
   teste: string;
   setTeste: (value: string) => void;
 }
@@ -20,8 +20,8 @@ interface IProviderProps {
 export const VehicleContextPrivider: React.FC<IProviderProps> = ({
   children,
 }: IProviderProps) => {
-  const [currentVehicleType, setCurrentVehicleType] = useState<VehicleTypes>(
-    VehicleTypes.cars,
+  const [currentVehicleType, setCurrentVehicleType] = useState<TypesVehicle>(
+    TypesVehicle.cars,
   );
   const [teste, setTeste] = useState('');
   return (

@@ -10,7 +10,6 @@ export interface IYearModel {
   code: number;
   name: string;
 }
-
 export interface IYearModelData {
   yearModels: IYearModel[];
   selectedYearModel?: IYearModel;

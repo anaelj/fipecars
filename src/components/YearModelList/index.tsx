@@ -1,48 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { MdOutlineClose } from 'react-icons/md';
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import { TypesVehicle } from 'services/api.types';
 import { IBrand } from 'store/ducks/brands/types';
 import { IModel } from 'store/ducks/models/types';
 import { IYearModel } from 'store/ducks/yearModels/types';
 
 import * as yearModelsActions from '../../store/ducks/yearModels/actions';
+import { useVehicle } from './../../context/vehicleContext';
 import { IApplicationState } from './../../store/index';
 interface IStatePros {
   yearModels: IYearModel[];
   selectedBrand: IBrand;
   selectedModel: IModel;
   loading: boolean;
-  selectedyearModel?: IYearModel;
+  state: any;
 }
 
 interface IDispatchProps {
-  loadRequest(brand: IBrand, model: IYearModel): void;
-  toggleYearModel(yearModel: IYearModel): void;
+  loadRequest(): void;
+  toggleYearModel(
+    _brand: IBrand,
+    _model: IModel,
+    _yearModel: IYearModel,
+    _vehicleType: TypesVehicle,
+  ): void;
 }
 
 interface IOwnProps {}
 
 type Props = IStatePros & IDispatchProps & IOwnProps;
 
-export const yearModelList = ({
+export const YearModelList = ({
   yearModels,
   loadRequest,
   toggleYearModel,
+  loading,
   selectedBrand,
   selectedModel,
-  loading,
 }: Props) => {
   const [localData, setLocalData] = useState([...yearModels]);
   const [filterText, setFilterText] = useState('');
 
+  const { currentVehicleType } = useVehicle();
+
   useEffect(() => {
-    loadRequest(selectedBrand, selectedModel);
-  }, []);
+    loadRequest();
+  }, [currentVehicleType]);
 
   useEffect(() => {
     setLocalData([...yearModels]);
+    setFilterText('');
   }, [yearModels]);
 
   useEffect(() => {
@@ -57,20 +68,38 @@ export const yearModelList = ({
     }
   }, [filterText]);
 
+  if (!(localData.length > 0) && !loading) {
+    return <></>;
+  }
+
   return (
-    <Container style={{ margin: '2px' }}>
-      <Row>
+    <Container>
+      <header>
+        <h2>Ano</h2>
+      </header>
+
+      <Row style={{ padding: '6px' }}>
         {loading && (
-          <ReactLoading type={'spin'} color={'blue'} height={'20%'} width={'20%'} />
+          <Col>
+            <ReactLoading type={'spin'} color={'blue'} height={'30%'} width={'30%'} />
+          </Col>
         )}
-      </Row>
-      <Row>
-        {yearModels?.length > 0 && (
-          <input
-            type="text"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
+        {!loading && (
+          <Col style={{ display: 'flex' }}>
+            <input
+              style={{ flex: '2' }}
+              type="text"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+            <Button
+              variant="primary"
+              onClick={() => setFilterText('')}
+              style={{ marginLeft: '-2px', flex: '1' }}
+            >
+              <MdOutlineClose size={24} />
+            </Button>
+          </Col>
         )}
       </Row>
       <Row>
@@ -78,8 +107,22 @@ export const yearModelList = ({
           localData.map((yearModel) => {
             return (
               yearModel.name && (
-                <Row key={yearModel.code} style={{ padding: '2px' }}>
-                  <Button variant="primary" onClick={() => toggleYearModel(yearModel)}>
+                <Row
+                  key={yearModel.code}
+                  style={{ marginLeft: '0px', marginBottom: '6px' }}
+                >
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      toggleYearModel(
+                        selectedBrand,
+                        selectedModel,
+                        yearModel,
+                        currentVehicleType,
+                      );
+                      setFilterText(yearModel.name);
+                    }}
+                  >
                     {yearModel.name}
                   </Button>
                 </Row>
@@ -92,14 +135,13 @@ export const yearModelList = ({
 };
 
 const mapStateToProps = (state: IApplicationState) => ({
-  yearModels: state.yearModels.data.yearModels,
-  selectedBrand: state.selectedBrand,
-  selectedModel: state.selectedModel,
-  selectedYearModel: state.selectedYearModel,
-  loading: state.yearModels.loading,
+  yearModels: state.yearModels?.data.yearModels || [],
+  selectedBrand: state.brands?.data.selectedBrand || ({} as IBrand),
+  selectedModel: state.models?.data.selectedModel || ({} as IModel),
+  loading: state.yearModels?.loading || false,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(yearModelsActions, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(yearModelList);
+export default connect(mapStateToProps, mapDispatchToProps)(YearModelList);

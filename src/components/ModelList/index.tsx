@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { MdOutlineClose } from 'react-icons/md';
 import ReactLoading from 'react-loading';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { VehicleTypes } from 'services/api.types';
+import { TypesVehicle } from 'services/api.types';
 import { IBrand } from 'store/ducks/brands/types';
 import { IModel } from 'store/ducks/models/types';
 
@@ -18,8 +19,8 @@ interface IStatePros {
 }
 
 interface IDispatchProps {
-  loadRequest(brand: IBrand, vehicleType: VehicleTypes): void;
-  toggleModel(dataBrand: IBrand, dataModel: IModel): void;
+  loadRequest(): void;
+  toggleModel(_dataBrand: IBrand, _dataModel: IModel, _vehicleType: TypesVehicle): void;
 }
 
 interface IOwnProps {}
@@ -38,11 +39,12 @@ export const ModelList = ({
   const { currentVehicleType } = useVehicle();
 
   useEffect(() => {
-    loadRequest(selectedBrand, currentVehicleType);
+    loadRequest();
   }, [currentVehicleType]);
 
   useEffect(() => {
     setLocalData([...models]);
+    setFilterText('');
   }, [models]);
 
   useEffect(() => {
@@ -57,31 +59,52 @@ export const ModelList = ({
     }
   }, [filterText]);
 
+  if (!(localData.length > 0) && !loading) {
+    return <></>;
+  }
+
   return (
-    <Container style={{ margin: '2px' }}>
-      <Row>
+    <Container>
+      <header>
+        <h2>Modelo</h2>
+      </header>
+
+      <Row style={{ padding: '6px' }}>
         {loading && (
-          <ReactLoading type={'spin'} color={'blue'} height={'20%'} width={'20%'} />
+          <Col>
+            <ReactLoading type={'spin'} color={'blue'} height={'30%'} width={'30%'} />
+          </Col>
+        )}
+        {!loading && (
+          <Col style={{ display: 'flex' }}>
+            <input
+              style={{ flex: '2' }}
+              type="text"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+            <Button
+              variant="primary"
+              onClick={() => setFilterText('')}
+              style={{ marginLeft: '-2px', flex: '1' }}
+            >
+              <MdOutlineClose size={24} />
+            </Button>
+          </Col>
         )}
       </Row>
       <Row>
-        {models.length > 0 && (
-          <input
-            type="text"
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
-        )}
-      </Row>
-      <Row style={{ color: 'black' }}>
         {localData?.length > 0 &&
           localData.map((model) => {
             return (
               model.name && (
-                <Row key={model.code} style={{ padding: '2px' }}>
+                <Row key={model.code} style={{ marginLeft: '0px', marginBottom: '6px' }}>
                   <Button
                     variant="primary"
-                    onClick={() => toggleModel(selectedBrand, model)}
+                    onClick={() => {
+                      toggleModel(selectedBrand, model, currentVehicleType);
+                      setFilterText(model.name);
+                    }}
                   >
                     {model.name}
                   </Button>
@@ -95,9 +118,9 @@ export const ModelList = ({
 };
 
 const mapStateToProps = (state: IApplicationState) => ({
-  models: state.models.data.models,
-  loading: state.models.loading,
-  selectedBrand: state.brands.data.selectedBrand,
+  models: state.models?.data.models || [],
+  loading: state.models?.loading || false,
+  selectedBrand: state.brands?.data.selectedBrand || ({} as IBrand),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

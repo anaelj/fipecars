@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
-import { VehicleTypes } from 'services/api.types';
+import { TypesVehicle } from 'services/api.types';
 
 // import { Container } from './styles';
 import { useVehicle } from './../../context/vehicleContext';
@@ -14,8 +14,8 @@ const Header = () => {
         <Col>
           {' '}
           <Button
-            variant={currentVehicleType === VehicleTypes.cars ? 'success' : 'secondary'}
-            onClick={() => setCurrentVehicleType(VehicleTypes.cars)}
+            variant={currentVehicleType === TypesVehicle.cars ? 'success' : 'secondary'}
+            onClick={() => setCurrentVehicleType(TypesVehicle.cars)}
           >
             Carros
           </Button>
@@ -23,17 +23,17 @@ const Header = () => {
         <Col>
           <Button
             variant={
-              currentVehicleType === VehicleTypes.motorcycles ? 'success' : 'secondary'
+              currentVehicleType === TypesVehicle.motorcycles ? 'success' : 'secondary'
             }
-            onClick={() => setCurrentVehicleType(VehicleTypes.motorcycles)}
+            onClick={() => setCurrentVehicleType(TypesVehicle.motorcycles)}
           >
             Motos
           </Button>
         </Col>
         <Col>
           <Button
-            variant={currentVehicleType === VehicleTypes.trucks ? 'success' : 'secondary'}
-            onClick={() => setCurrentVehicleType(VehicleTypes.trucks)}
+            variant={currentVehicleType === TypesVehicle.trucks ? 'success' : 'secondary'}
+            onClick={() => setCurrentVehicleType(TypesVehicle.trucks)}
           >
             Caminhões
           </Button>

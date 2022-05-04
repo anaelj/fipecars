@@ -17,7 +17,9 @@ const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: false,
-        data: { brands: action.payload.data },
+        data: {
+          brands: action.payload.data,
+        },
       };
     case BrandTypes.LOAD_FAILURE:
       return { ...state, loading: false, error: true, data: { brands: [] } };
@@ -28,7 +30,6 @@ const reducer: Reducer<IBrandsState> = (state = INITIAL_STATE, action) => {
         data: {
           brands: state.data.brands,
           selectedBrand: action.payload.data,
-          yearModels: null,
         },
       };
 
