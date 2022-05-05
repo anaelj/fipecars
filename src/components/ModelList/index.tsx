@@ -64,7 +64,7 @@ export const ModelList = ({
   }
 
   return (
-    <Container>
+    <Container style={{ padding: '12px' }}>
       <header>
         <h2>Modelo</h2>
       </header>
@@ -86,7 +86,7 @@ export const ModelList = ({
             <Button
               variant="primary"
               onClick={() => setFilterText('')}
-              style={{ marginLeft: '-2px', flex: '1' }}
+              style={{ marginLeft: '-2px' }}
             >
               <MdOutlineClose size={24} />
             </Button>

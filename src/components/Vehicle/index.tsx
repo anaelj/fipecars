@@ -27,21 +27,12 @@ interface IOwnProps {}
 type Props = IStatePros & IDispatchProps & IOwnProps;
 
 export const Vehicle = ({ vehicle, loading }: Props) => {
-  // useEffect(() => {
-  //   loadRequest();
-  // }, []);
-
-  // console.log(state);
-  // if (!selectedYearModel.name) {
-  //   return <></>;
-  // }
-
   if (!vehicle.model && !loading) {
     return <></>;
   }
 
   return (
-    <Container>
+    <Container style={{ padding: '12px' }}>
       <header>
         <h2>Veículo</h2>
       </header>

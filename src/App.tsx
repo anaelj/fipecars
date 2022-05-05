@@ -20,16 +20,36 @@ function App() {
           <Header />
           <Container>
             <Row>
-              <Col xl={3} md={3} sm={12}>
+              <Col
+                xl={3}
+                md={4}
+                sm={12}
+                style={{ minWidth: '300px', padding: '0px', margin: '0px' }}
+              >
                 <BrandList />
               </Col>
-              <Col xl={3} md={3} sm={12}>
+              <Col
+                xl={3}
+                md={4}
+                sm={12}
+                style={{ minWidth: '300px', padding: '0px', margin: '0px' }}
+              >
                 <ModelList />
               </Col>
-              <Col xl={3} md={3} sm={12}>
+              <Col
+                xl={3}
+                md={4}
+                sm={12}
+                style={{ minWidth: '300px', padding: '0px', margin: '0px' }}
+              >
                 <YearModelList />
               </Col>
-              <Col xl={3} md={3} sm={12}>
+              <Col
+                xl={3}
+                md={4}
+                sm={12}
+                style={{ minWidth: '300px', padding: '0px', margin: '0px' }}
+              >
                 <Vehicle />
               </Col>
             </Row>

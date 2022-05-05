@@ -17,7 +17,6 @@ interface IStatePros {
   selectedBrand: IBrand;
   selectedModel: IModel;
   loading: boolean;
-  state: any;
 }
 
 interface IDispatchProps {
@@ -73,7 +72,7 @@ export const YearModelList = ({
   }
 
   return (
-    <Container>
+    <Container style={{ padding: '12px' }}>
       <header>
         <h2>Ano</h2>
       </header>
@@ -95,7 +94,7 @@ export const YearModelList = ({
             <Button
               variant="primary"
               onClick={() => setFilterText('')}
-              style={{ marginLeft: '-2px', flex: '1' }}
+              style={{ marginLeft: '-2px' }}
             >
               <MdOutlineClose size={24} />
             </Button>

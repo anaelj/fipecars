@@ -50,7 +50,7 @@ export const BrandList = ({ brands, loadRequest, toggleBrand, loading }: Props) 
   }, [filterText]);
 
   return (
-    <Container>
+    <Container style={{ padding: '12px' }}>
       <header>
         <h2>Marca</h2>
       </header>
@@ -71,7 +71,7 @@ export const BrandList = ({ brands, loadRequest, toggleBrand, loading }: Props) 
             <Button
               variant="primary"
               onClick={() => setFilterText('')}
-              style={{ marginLeft: '-2px', flex: '1' }}
+              style={{ marginLeft: '-2px' }}
             >
               <MdOutlineClose size={24} />
             </Button>
